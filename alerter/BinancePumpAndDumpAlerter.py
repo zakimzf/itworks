@@ -139,7 +139,13 @@ class BinancePumpAndDumpAlerter:
                     ws_url = "wss://stream.binance.com:9443/ws/!miniTicker@arr"
                     self.logger.info(f"Connecting to WebSocket: {ws_url}")
                     
-                    async with session.ws_connect(ws_url) as ws:
+                    # Add headers to avoid 451 errors
+                    headers = {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                        'Origin': 'https://www.binance.com'
+                    }
+                    
+                    async with session.ws_connect(ws_url, headers=headers) as ws:
                         last_process_time = 0
                         
                         async for msg in ws:

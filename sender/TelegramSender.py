@@ -2,7 +2,7 @@ import logging
 import asyncio
 
 from concurrent.futures import ThreadPoolExecutor
-from telegram import Bot
+from telegram import Bot, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.constants import ParseMode
 from telegram.error import RetryAfter
 from time import sleep
@@ -34,7 +34,7 @@ class TelegramSender:
     def is_alert_chat_enabled(self):
         return self.alert_chat_id != 0 and self.alert_chat_id != self.chat_id
 
-    async def send_message(self, message, is_alert_chat=False):
+    async def send_message(self, message, is_alert_chat=False, reply_markup=None):
         chat_id = self.chat_id if not is_alert_chat else self.alert_chat_id
 
         self.logger.info(message)
@@ -42,8 +42,9 @@ class TelegramSender:
             await self.bot.send_message(
                 chat_id=chat_id,
                 text=message,
-                parse_mode=ParseMode.MARKDOWN,
+                parse_mode=ParseMode.HTML,
                 disable_web_page_preview=True,
+                reply_markup=reply_markup,
             )
         except RetryAfter as e:
             self.logger.error(
@@ -51,21 +52,21 @@ class TelegramSender:
             )
             await asyncio.sleep(e.retry_after)
             # Resend message
-            await self.send_message(message, is_alert_chat)
+            await self.send_message(message, is_alert_chat, reply_markup)
         except Exception as e:
             self.logger.error(str(e))
 
-    async def send_generic_message(self, message, args=None, is_alert_chat=False):
+    async def send_generic_message(self, message, args=None, is_alert_chat=False, reply_markup=None):
         if args is not None:
             message = message.format(args)
-        await self.send_message(self.bot_emoji + " " + message, is_alert_chat)
+        await self.send_message(self.bot_emoji + " " + message, is_alert_chat, reply_markup)
 
-    async def send_report_message(self, message, args=None, is_alert_chat=False):
+    async def send_report_message(self, message, args=None, is_alert_chat=False, reply_markup=None):
         if args is not None:
             message = message.format(args)
-        await self.send_message(self.top_emoji + " " + message, is_alert_chat)
+        await self.send_message(self.top_emoji + " " + message, is_alert_chat, reply_markup)
 
-    async def send_news_message(self, message, args=None, is_alert_chat=False):
+    async def send_news_message(self, message, args=None, is_alert_chat=False, reply_markup=None):
         if args is not None:
             message = message.format(args)
-        await self.send_message(self.news_emoji + " " + message, is_alert_chat)
+        await self.send_message(self.news_emoji + " " + message, is_alert_chat, reply_markup)

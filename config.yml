@@ -15,12 +15,13 @@ chartIntervals:
   - 6h
 
 # Values in % at which an alert is triggered. Ensure interval exists in chartIntervals as well.
+# Values in % at which an alert is triggered. Ensure interval exists in chartIntervals as well.
 outlierIntervals:
-  "1m": 0.01
-  "5m": 0.02
-  "15m": 0.03
-  "30m": 0.04
-  "1h": 0.05
+  "1m": 0.015  # Increased from 1% to 1.5%
+  "5m": 0.025  # Increased from 2% to 2.5%
+  "15m": 0.035 # Increased from 3% to 3.5%
+  "30m": 0.045 # Increased from 4% to 4.5%
+  "1h": 0.06   # Increased from 5% to 6%
   "3h": 0.1
   "6h": 0.2
 
@@ -91,7 +92,7 @@ newsEmoji: ! "\U0001F4F0" # 📰 or '\U0001F680' 🚀
 # If False we do not print unnecessary messages
 debug: True
 # Skip alert at higher timeframes when change in % did not change value by threshold in percentage points
-alertSkipThreshold: 0.75
+alertSkipThreshold: 1.5
 # Interval for clearing array to prevent memory can handle up to 12h+ depending on system
 resetInterval: 6h
 # In the case of get price fail, this is the time delay before re-attempt

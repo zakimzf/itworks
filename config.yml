@@ -27,7 +27,7 @@ outlierIntervals:
 # Used for telegram bot updates
 
 # Insert telegramToken obtained from @BotFather here
-telegramToken: 6134324860:AAG3yrWzx9NhOuPx_7D4mdRZ5EzyokM8KXs
+telegramToken: 6134324860:AAEU6pgEgHKCTavL0h9C7RqJM38qqLa7ZhI
 # Insert Chat ID obtained from @get_id_bot here
 telegramChatId: 1146471541
 # Insert Chat ID for top pump dump alert, if left on `0` it'll send the message to telegram chat id

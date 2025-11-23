@@ -48,7 +48,7 @@ class TelegramSender:
             )
         except RetryAfter as e:
             self.logger.error(
-                "Flood limit is exceeded. Sleep {} seconds.", e.retry_after
+                f"Flood limit is exceeded. Sleep {e.retry_after} seconds."
             )
             await asyncio.sleep(e.retry_after)
             # Resend message
